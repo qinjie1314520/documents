@@ -1,0 +1,12 @@
+1，使用最好指定大小，如果动态添加，每次会拷贝数据
+2，线程不安全的，不要多线程访问一个ArrayList
+ #图片地址
+        location /images/{
+                root /mnt/;
+                autoindex on;
+        }
+        #好像没用到
+        location /files/{
+                root /mnt/;
+                autoindex on;
+        }

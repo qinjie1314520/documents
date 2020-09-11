@@ -1,0 +1,4 @@
+1，${user.id} 会依据Request、Session、Application范围查找
+${param.name} 等价于 request.getParamter("name")，这两种方法一般用于服务器从页面或者客户端获取的内容。
+
+${requestScope.name} 等价于 request.getAttribute("name")，一般是从服务器传递结果到页面，在页面中取出服务器保存的值。

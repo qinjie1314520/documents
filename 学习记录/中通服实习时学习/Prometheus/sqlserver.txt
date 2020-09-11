@@ -1,0 +1,12 @@
+pull mcr.microsoft.com/mssql/server:2017-latest
+
+sqlserver
+sudo docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=MyPassWord123"  -p 1433:1433 --name sql1  -d mcr.microsoft.com/mssql/server:2017-latest
+https://www.cnblogs.com/hulizhong/p/11271739.html
+
+sqlserver exporter
+docker run -e SERVER=139.9.87.17 -e USERNAME=SA  -e PASSWORD=MyPassWord123 -e DEBUG=app -p 4000:4000 --name prometheus-mssql-exporter awaragi/prometheus-mssql-exporter
+
+sudo docker exec -it sql1 "bash"
+
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "MyPassWord123"

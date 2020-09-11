@@ -1,0 +1,10 @@
+git config --global user.name "Your Name"
+git config --global user.email "email@example.com"
+git clone 项目地址 （此处的项目地址：https://github.com/Rainno/vue-es6-webPack.git点击打开链接）
+
+git status 查看修改状态
+
+git add * 添加到本地
+git commit 提交到本地
+git push 推送
+

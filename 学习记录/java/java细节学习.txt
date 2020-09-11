@@ -1,0 +1,20 @@
+1，输出从左到右
+System.out.println(1+2+"a");
+System.out.println("a"+1+2);
+2，对byte/short/char进行数值运算时，会强制转换为int类型，最终的结果也是int类型
+byte b1=1;
+byte b2=2;
+byte b3=b1+b2;//编译错误
+byte b3=(byte)(b1+b2)
+3，== 比较内存地址
+
+值传递和引用传递
+4，基本数据类型及其包装类就是值传递，在方法中改变没有用
+5，自定义类属于引用对象，在方法中改变有用
+6，String类型的对象，进行参数传递时也是值传递
+7，进行引用传递时，对原对象的引用是不会改变的，对象不会变
+8，数组int a[]属于应用传递
+9，List属于引用传递
+10，HashMap属于引用传递
+11，protected，包可见，子类可继承。default包可见
+12，int->long->BigInt(BigDecimal)

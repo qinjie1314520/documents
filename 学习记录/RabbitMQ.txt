@@ -1,0 +1,10 @@
+docker安装rabbitMQ
+docker pull rabbitmq:management 拉去
+docker run -d --hostname my-rabbit --name rabbit -p 5673:5672 rabbitmq:management
+以guest账号密码运行
+
+docker run --name rabbitmq -p 15672:15672 -p 5672:5672 -it --network mybridge rabbitmq:management
+
+工作模式：工作队列
+
+1，简单模式

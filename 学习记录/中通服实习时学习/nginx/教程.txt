@@ -1,0 +1,11 @@
+https://blog.csdn.net/Q748893892/article/details/103826775/
+
+./configure --user=root --group=root --prefix=/usr/local/nginx --add-module=/home/nginx/nginx-module-vts
+
+./nginx-vts-exporter  -nginx.scrape_uri http://localhost/status/format/json &
+
+
+./configure --user=root --group=root --prefix=/usr/local/nginx --add-module=/home/nginx/nginx-module-vts --add-module=/home/nginx/nginx_upstream_check_module
+
+健康监测
+https://www.cnblogs.com/happyhuangjinjin/p/13543819.html

@@ -1,0 +1,16 @@
+ 主目录运行：实例，输出PI   3.1415那个
+bin/spark-submit --class org.apache.spark.examples.SparkPi --executor-memory 1G --total-executor-cores 2 ./examples/jars/spark-examples_2.12-3.0.0-preview2.jar 100
+一个wordcount得实例，文件在hdfs根目录下input目录
+sc.textFile("/input").flatMap(_.split(" ")).map((_,1)).reduceByKey(_+_).collect
+bin/spark-shell 进入shell
+
+算子中的计算在executor中执行
+reducebykey相比groupbykey多一个本地预聚合
+宽依赖，有shuffle过程。作为stage的依据
+
+RDD缓存：通过persist或者cache将前面的计算结果缓存，默认情况下persist()会把数据以序列化的形式缓存在JVM的堆空间。但是并不是这两个方法被调用时立即缓存，二十触发后面的action时，该RDD将会被缓存在计算节点的内存中，并供后面重用
+
+
+检查点：    Spark中对于数据的保存除了持久化操作之外，还提供了一种检查点的机制，检查点（本质是通过将RDD写入Disk做检查点）是为了通过lineage（血统）做容错的辅助，lineage过长会造成容错成本过高，这样就不如在中间阶段做检查点容错，如果之后有节点出现问题而丢失分区，从做检查点的RDD开始重做Lineage，就会减少开销。检查点通过将数据写入到HDFS文件系统实现了RDD的检查点功能。
+cache：有缓存结果
+把 RDD 计算出来然后放在内存中，但是RDD 的依赖链（相当于数据库中的redo 日志），也不能丢掉，当某个点某个 executor 宕了，上面cache 的RDD就会丢掉，需要通过依赖链重放计算出来。不同的是，checkpoint是把 RDD 保存在 HDFS中， 是多副本可靠存储，所以依赖链就可以丢掉了，就斩断了依赖链， 是通过复制实现的高容错。

@@ -1,0 +1,35 @@
+1、hive --service hiveserver2 & 启动
+2、load data inpath 'hdfs://139.9.87.17:9000/test1.txt' into table stu;
+从hdfs上加载文件的数据
+3、load data local inpath '/home/qinjie/hive-3.1.2/test.txt' into table student;  从本地文件中的数据加载到表中，字段对应，列数 对应
+create table stu(id int, name  string) row format delimited fields terminated by '\t'; 创建表，以tab分隔
+
+4、测试数据：
+qinjie,haha_shabi,qinjie1:18_qinjie2:19_qinjie3:20,龙门阵大道_重庆
+qinjie0,haha0_shabi0,qinjie10:180_qinjie20:190_qinjie30:200,龙门阵大道0_重庆0
+
+create table test(
+name string,
+friends array<string>,
+children map<string, int>,
+address struct<street:string, city:string>
+)
+row format delimited 
+fields terminated by ',' 
+collection items terminated by '_' 
+map keys terminated by ':'
+lines terminated by '\n';
+创建一个复制类型的表，包含普通数据类型，map，array，还有结构体struct
+
+5、hive中得到数组中某个值，通过角标 select friends[0] from test;
+6、hive得到map中某个值，通过key 比如：select children['qinjie1'] from test;
+7、hive得到结构体中某个值，通过点，‘ .’ l例如：select address.city from test;
+
+ddl:
+create database qinjie;
+create database qinjie localhost '/asdasd'; 相当于hdfs根目录
+show databases like 'hive*' 展示匹配数据库
+desc database hive; hive的详细信息 
+desc database extended qinjie;hive的详细扩展信息 
+drop database qinjie;存在表会报错
+drop database qinjie cascade；强制删除，包括表

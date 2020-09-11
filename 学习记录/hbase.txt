@@ -1,0 +1,121 @@
+./bin/hbase shell  bin目录下进入shell
+list 查看有哪些表
+
+
+
+
+zookeeper启动停止
+./bin/zkServer.sh start
+./bin/zkServer.sh stop
+
+DD
+disable 'user'，不在使用表
+drop ‘user’，不在使用表后删除表
+deleteall 'test1', 'name' ，删除列族下的所有列
+
+
+【namespace】
+-》展示namespace
+list_namespace
+
+-》展示namespace下所有表
+list_namespace_tables 'hbase'
+
+-》创建namespace    帮助信息help 'create_namespace'
+create_namespace 'nstest'
+
+-》描述namespace
+describe_namespace 'nstest'
+
+-》修改alter_namespace 
+只是修改命名空间的属性，对于名称是不能修改的
+
+-》删除namespace
+drop_namespace 'nstest2'
+
+【table】 
+--》创建表时不需要进入到某个命名空间下，没有use命令，不是等同于RDBMS
+--》'ns1:t1' 表与命名空间的关联通过 ：这个符号
+
+create 'ns1:t1', {NAME => 'f1', VERSIONS => 5}
+-》指定某一个namespace下的某一张表
+-》必须要指定一个列族{NAME}  --》NAME等同于列族的属性key
+-》=>表示等于的意思
+-》一对{}只能定义一个列族，不同的{}定义不同多个列族
+-》{}中的变量名称必须是大写的
+-》VERSIONS指定列族下存储多个版本的数据
+
+create 't1', {NAME => 'f1'}
+-》不指定命名空间的  --》会在默认的命名空间下(default)
+
+create 't1', 'f1', 'f2', 'f3'
+-》简单使用创建方式，t1表的名称，f1、f2、f3都是定义到列族里
+
+-》创建表【不指定namespace默认是default】
+create 'stu_info','f1'
+create 't1', 'f1', 'f2', 'f3'
+create 'nstest:tb1','info'   
+
+-》TTL(Time to Live) 用于限定数据的有效时间，CF默认的TTL值是FOREVER，也就是永不过期
+   ，CF的TTL的值以秒为单位，比如设为1天，那么第二天就会自动删除
+
+--》展示表
+list  --》直接展示用户所有表，但是系统表不会展示
+   
+   
+-》描述表
+describe 't1'或者desc 't1'
+
+{NAME => 'f1', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NO
+NE', TTL => 'FOREVER', COMPRESSION => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '
+0'}
+
+-》修改表中列族属性：
+alter不能修改表的名称
+
+alter 't1', NAME => 'f1', VERSIONS => 5    --》修改指定某个列族的属性
+alter 't1', 'f1', {NAME => 'f2', IN_MEMORY => true}, {NAME => 'f3', VERSIONS => 5}  -》修改多个列族的属性
+增加列族：alter 't1', NAME => 'f2', VERSIONS => 5（版本可以不要）
+          alter 't1', 'f3', {NAME => 'f4', IN_MEMORY => true}  （也是增加）
+        --》如果表中已存在该列族表示修改该列族属性，反之就是增加一个列族       
+修改(删除)列族：alter 't1', NAME => 'f3', METHOD => 'delete'
+                alter 't1', 'delete' => 'f2'
+            --》不支持同时删除多个列族
+          
+-》删除表 help 'drop'
+    -》需要注意在hbase中删除表前都需要先禁用这张表
+    disable 't1'  --》禁用
+    enable 't1'   --》启用
+    drop 't1'     --》删除 
+    is_disabled   --》是否禁用状态
+    is_enabled    --》是否启用状态
+
+DML
+插入数据put】
+-》格式：help 'put'
+put 'ns1:t1', 'r1', 'c1', 'value'
+-》r1表示rowkey 
+-》c1表示列族+列
+-》value表示插入的值
+
+【查询数据get、scan】
+-》get方式：快速查询 指定索引查询，必须要跟rowkey
+get 'nstest:tb1','10001'         查询某个rowkey的数据
+get 'nstest:tb1','10001','info'  可以指定某个列族的数据
+get 'nstest:tb1','10001','info:name'   可以指定某个列族下某个列的数据
+-》hbase默认按照字典序进行排列--》abcd
+
+-》scan方式：全表扫描
+-》类似select * from的方式，全表扫描
+scan 'nstest:tb1'
+
+scan 't1',{COLUMNS => 'info:name'}  --》他是不限制行的
+-》指定列去查询
+
+scan 't1',{COLUMNS => 'info'}  --》他是不限制行的
+-》指定列族去查询
+
+scan 'ns1:t1', {COLUMNS => ['c1', 'c2'], LIMIT => 10, STARTROW => 'xyz'}
+-》STARTROW表示开始的行号，LIMIT是限制显示的行数
+
+

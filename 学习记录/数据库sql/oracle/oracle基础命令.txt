@@ -1,0 +1,17 @@
+1，创建视图
+create  view one
+as 
+select * from CLASS;
+2，删除视图
+DROP VIEW view;
+
+3，得到视图信息
+SELECT * FROM user_views ;
+
+4，创建只读视图
+create  view one
+as 
+select * from CLASS
+with read only；
+
+5,视图可以更新数据，条件是单个表的视图

@@ -1,0 +1,27 @@
+1.select  row_number() 
+over(partition by c_agency_id = 1,c_agency_id = 2 order by c_id ) as id ,c_id, c_username, c_status,c_agency_id ,c_publish_patent
+ from tb_case;
+分区，按照c_agency_id = 1 分成一个区，c_agency_id=2分成一个区，其他分成一个区，共三个区，
+row_number() ,进行编号，每个区中排序时编号不会重复
+2.select  rank() over(partition by c_agency_id = 1,c_agency_id = 2 order by c_status) as id ,c_id, c_username, c_status,c_agency_id ,c_publish_patent from tb_case;
+分区，同1，分区后，每个区中排序的编号会重，并且区中重复的编号会跳行类似于 
+编号 记录
+1 第一条记录
+1 第二条记录
+1 第三条记录
+4 第四记录
+4 第五条记录
+3，over里面的排序是在外面order by之前执行
+4，
+select  dense_rank() over(partition by c_agency_id = 1,c_agency_id = 2 order by c_status) as id ,c_id, c_username, c_status,c_agency_id ,c_publish_patent from tb_case;
+同2，分区后，每个区中编号不会重，并且不会跳行
+编号 记录
+1 第一条记录
+1 第二条记录
+1 第三条记录
+2 第四记录
+2 第五条记录
+5，partition by分区后，每个区的数据会展示出来
+6，partition by (c_agency_id =1 or c_agency_id =2)和partition by c_agency_id in(1,2),将会分成判断c_agency_id =1和c_agency_id =2的记录一个区，其他一个区。 partition by c_agency_id，c_agency_id值相等才一个区
+7，select * from tb_case group by c_agency_id  = 1,c_agency_id = 2，分组同6，类似，分成c_agency_id  = 1一个组，c_agency_id  = 2一个组，c_agency_id  = 其他一个组
+8，group by x,y，匹配x,y相同的为一组

@@ -1,0 +1,8 @@
+alter table cnlegalstatus_2015_2019 ENGINE = MyIsam;
+ALTER TABLE  TableName AUTO_INCREMENT = 5; 
+
+找出不连续的id
+select p_n_patent_id from (select p_n_patent_id from tb_patent_neighbourhood_copy1 order by p_n_patent_id asc) t where not exists (select 1 from tb_patent_neighbourhood_copy1 
+ where p_n_patent_id=t.p_n_patent_id-1)
+找出不连续的id 
+ select p_n_patent_id from (select p_n_patent_id from tb_patent_neighbourhood_copy1  order by p_n_patent_id asc) t where (select 1 from tb_patent_neighbourhood_copy1 where p_n_patent_id=t.p_n_patent_id-1) is null

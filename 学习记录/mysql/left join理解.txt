@@ -1,0 +1,11 @@
+1，数据库中left join，用法：select t.*, u.* from t_teacher t left join t_user u on t.t_number = u.u_r_connection;
+这个 左右连接的连接条件必须有，就是on必须有，left join就是以左边那个表t_teacher为主表连接（如果没有记录则直接为空），
+right join类似，以右边那个表t_user为主表连接（如果右边那个表为空直接为空
+2,多个表进行左右连接时。参考如下例子
+select c.*, ct.*,sc.*, t.*,u.* from t_course c left join t_course_type ct on ct.c_t_id = c.c_type left join t_student_course sc on sc.s_c_c_id = c.c_id left join t_teacher t on t.t_number = c.c_teacher left join t_user u on u.u_r_connection = t.t_number
+where not isnull(c.c_teacher) and c.c_id not in
+ (select s_c_c_id
+ from
+ t_student_course where s_c_s_num=2017081021)
+ group by c.c_id order by c.c_id asc;
+注意：在on条件完后，可以同过where对连接后的表进行筛选

@@ -1,0 +1,10 @@
+nbtstat -n 查看当前计算机的NetBIOS信息
+sc delete mysql 删除服务，管理员打开cmd
+
+curl http://localhost:10005/tables/user -X POST -d @datas.json --header "Content-Type: application/json"
+
+curl http://localhost:10005/tables/user/attention?rowKeyA=1000"&"rowKeyB=900
+
+
+curl -Uri 'https://api.weibo.com/oauth2/get_token_info' -Body 'access_token=2.00VtCfGEXWO
+OKE229f72fa42wkzKAE' -Method 'POST'

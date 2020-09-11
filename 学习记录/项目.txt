@@ -1,0 +1,28 @@
+	if(new.order_status = 2 or new.order_status = 5) then
+    insert tb_time_node(order_id, type, is_delete, time) value(new.id, 1,1,REPLACE(unix_timestamp(current_timestamp(3)),'.',''));
+    elseif(new.order_status = 12 or new.order_status = 13) then
+    insert tb_time_node(order_id, type, is_delete, time) value(new.id, 10,1,REPLACE(unix_timestamp(current_timestamp(3)),'.',''));
+	elseif(new.order_status = 3) then
+    insert tb_time_node(order_id, type, is_delete, time) value(new.id, 2,1,REPLACE(unix_timestamp(current_timestamp(3)),'.',''));
+    end if;
+
+
+用户界面修改：
+1，订单界面下单时间
+2，打包柜不能选择
+3，类别下面向下滑，第二页
+4，隔日达，送货时间
+5，柜子部分语音提示
+6，用户存货，取货完成提示
+7，用户存活完成后提示用户
+8，确认订单展示社区
+
+
+1，用户未登录，首次进入，根据经纬度得到商品社区信息
+2，用户未登录，修改社区后，访问带上社区id，得到商品社区信息
+3，用户未登录，进入下单，如果未登录弹出登陆，确认登陆时，返回社区信息，如果为空，不能下单，提示用户绑定社区
+4，用户登陆，未绑定社区，返回社区商品信息为空，显示请选择
+
+地址部分，
+1，用户绑定社区后绑定社区地址
+2，更换地址时，查询当前所在社区得地址

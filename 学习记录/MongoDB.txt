@@ -1,0 +1,21 @@
+应用场景——评论分析，每条记录不太重要，可以遗漏，大数据量
+
+service mongod start  启动MongoDB
+service mongod stop 停止MongoDB
+ service mongod restart 重启MongoDB
+
+卸载MongoDB
+apt purge mongodb-org*
+sudo rm -r /var/log/mongodb 
+sudo rm -r /var/lib/mongodb
+
+mongo 进入shell
+
+    > use admin #进入admin数据库
+    switched to db admin
+    > db.createUser(
+       {user:"admin",
+        pwd:"admin",
+        roles:[{role:"root", db:"admin"}]
+        }
+       )

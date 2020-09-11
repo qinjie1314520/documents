@@ -1,0 +1,20 @@
+启动带rule的Prometheus容器
+docker run -d -p 9090:9090 -v /opt/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml -v /opt/prometheus/rules.yml:/etc/prometheus/rules.yml  prom/prometheus
+
+启动alert
+docker run -d -p 9093:9093 -v /opt/alertmanager/alertmanager.yml:/etc/alertmanager/config.yml --name alertmanager docker.io/prom/alertmanager:latest
+
+docker run --name alertmanger -d  -p 9093:9093 -v /opt/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml quay.io/prometheus/alertmanager
+
+启动grafana
+docker run -d \
+  -p 3000:3000 \
+  --name=grafana \
+  -v /opt/grafana-storage:/var/lib/grafana \
+  grafana/grafana
+
+启动node-exporter
+docker run -d -p 9100:9100 
+  prom/node-exporter
+
+docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --publish=8080:8080 --detach=true --name=cadvisor google/cadvisor -storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=influxsrv:8086

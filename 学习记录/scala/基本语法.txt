@@ -1,0 +1,41 @@
+输出：
+    var age:Int=10
+    var sal:Float=10.6f
+    var name:String="hello"
+    println("age="+age+",sal="+sal+",name="+name)
+    printf("age=%d,sal=%.2f,name=%s\n",age,sal,name)
+    //编译器会去解析，效率没什么影响
+    println(s"age=${age},sal=${sal},name=$name")
+    println(s"age=${age},sal=${sal+age},name=$name")
+源码关联：
+拷贝源码到scala主目录下lib，解压，idea中点击某个类型，进入源码，可以进行关联
+
+变量基本使用：var修饰可以修改值，val修饰不可以修改值（编译后相当于java加了final）
+var age:Int=10
+    var sal:Float=10.6f
+    var name:String="hello"
+变量类型可以省略，下面判断是否为该类型，类型确定后 不可以改
+println(a.isInstanceOf[Int]);
+
+循环判断，基本同java一样
+if(){}else if(){}
+其中for（i <- 0 to 10）{
+}i可以开始没有定义
+
+定长一维多维数组
+ var arr : Array[String] = new Array[String](3)
+    arr(0) = "1"
+    arr(1) = "1"
+    arr(2) ="1"
+    var arr1 = Array("1","2","3")
+    println(arr1(0));
+    var arr2 = Array.ofDim[Int](3,3)
+    arr2(0)(0)=1
+    println(arr2(0)(0))
+从屏幕中输入val line = StdIn.readLine()
+从文件读取内容
+ println("文件内容为:" )
+
+    Source.fromFile("C:\\Users\\秦杰\\Desktop\\test.txt" ).foreach{
+      print
+    }

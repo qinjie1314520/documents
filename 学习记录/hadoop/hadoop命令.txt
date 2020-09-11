@@ -1,0 +1,10 @@
+hadoop fs -rm -f -r /1.txt  删除根目录文件
+hadoop fs -rm -f -r /ck  删除目录
+
+hadoop fs -chmod -R 777 /  授予Hadoop根目录所有权限
+
+ hadoop fs -mkdir -p /aa/bb/cc
+
+ hadoop fs -mkdir /testin
+hadoop fs -put a.txt /
+hadoop dfsadmin -report 查看磁盘使用情况

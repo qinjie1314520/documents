@@ -1,0 +1,23 @@
+1.服务器集群，负载均衡
+2.服务器集群实现
+	tomcat+zookeeper+solrcloud
+	Apache+JK2实现Tomcat集群与负载均衡
+3.分布式
+4.nginx反向代理，实现负载均衡
+5.redis实现数据库中间件
+6.mysql主从复制，mycat实现读写分离
+
+
+
+
+
+
+
+
+
+
+
+
+
+7.富文本编辑
+8.shiro生成理解

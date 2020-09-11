@@ -1,0 +1,108 @@
+
+docker images 列出已有镜像
+docker pull tomcat 安装tomcat，最新版
+systemctl start docker 启动        
+sudo systemctl daemon-reload 守护进程重启   
+systemctl restart  docker 重启docker服务   
+service docker restart 重启docker服务
+docker   service docker stop 关闭   
+docker  systemctl stop docker 关闭
+
+删除镜像 
+docker rmi ubuntu:16.04  某个版本 
+	docker rmi tomcat  最新版
+docker search mysql 搜索镜像 
+docker rm 60fc2ea83fa7（id）  删除容器 
+
+docker ps -a  列出所有容器
+docker ps 列出运行的容器
+
+docker私有仓库
+docker run -di --name=registry -p 5000:5000 registry  运行镜像成为容器
+docker run -d -v /home/qinjie/registry/config.yml:/etc/docker/registry/config.yml -p 5000:5000 --name registry registry  运行registry
+docker tag  hello-world 139.9.87.17:5000/hello-world 标记类似于复制一个镜像，便于后面推送镜像到docker私有仓库
+docker push 127.0.0.1:5000/hello-world 推送镜像到私有仓库
+curl -I -X DELETE http://139.9.87.17:5000/v2/register/manifests/sha256:92c7f9c92844bbbb5d0a101b22f7c2a7949e40f8ea90c8b3bc396879d95e899a
+删除私有仓库镜像第一步
+registry garbage-collect config.yml  删除私有仓库第二步 但是不行，报错
+docker exec -it f6916105bf25 sh 进入registry
+du -sch 进入registry查看仓库大小
+
+docker run --name openfire --hostname komlin -d  --publish 9090:9090 --publish 5222:5222 --publish 7070:7070 sameersbn/openfire
+docker mysql创建运行容器
+docker run --name=名称 -it -p 外部访问端口:mysql的端口（3306） -e MYSQL_ROOT_PASSWORD=密码 -d 镜像名称
+docker run --name=docker-mysql -it -p 3307:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql/mysql-server
+
+docker exec -it container_id bash 进入容器
+docker restart 容器ID（或者容器名）  重启容器
+docker stop 容器ID或容器名 停止容器
+docker kill 容器ID或容器名 直接关闭容器
+docker start 容器ID或容器名 
+
+配置docker是可以远程访问（自动打包镜像相关的）
+vim /lib/systemd/system/docker.service
+在ExecStart =    后面添加 -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+表示全部主机可以访问
+
+systemctl daemon-reload 重新加载
+systemctl restart docker 重启
+
+
+制作镜像
+指定目录下 docker build -t='jdk1.8' .
+docker-jdk1.8是名称
+docker run -di --name=runing-docker-jdk1.8 docker-jdk1.8 运行jdk
+
+mvn clean package docker:build -DpushImage  idea打包镜像上传
+
+docker network ls 查看现在的网络
+
+docker network create -d bridge mybridge 创建自己的bridge
+创建容器并且指定bridge
+docker run -d --name box5   busybox /bin/sh -c "while true;do sleep 3600;done"
+docker run -d --name box6 --network mybridge busybox /bin/sh -c "while true;do sleep 3600;done"
+
+docker run --name busy -it --rm busybox 运行busybox，进行常用命令的测试，并且退出时删除容器
+
+docker network create my-net 创建自定义网桥
+docker run --name box3  -it --rm  --network my-net busybox sh 带参数指定网桥
+docker run -p 10002:10002 --name chat_config_server -i --network mybridge chat_config_server:1.0  正确在idea中
+docker run -di  -p 10001:10001 --name chat_eureka_one -it --network mybridge chat_eureka_one:1.0  后台运行
+docker run  -p 10001:10001 --name chat_eureka_one -it --network mybridge chat_eureka_one:1.0  运行，会有输出
+
+mvn clean package docker:build   docker maven创建镜像上传 
+mvn clean package docker:build  -DpushImage  docker maven创建镜像上传，并推送私有 
+
+docker中关于镜像的清理
+docker system df  查看docker存储占用情况
+docker system prune可对空间进行自动清理。
+已停止的容器
+未被任何容器使用的卷
+未被任何容器所关联的网络
+所有悬空的镜像
+
+删除所有未被容器引用的卷：
+docker volume rm $(docker volume ls -qf dangling=true)
+
+删除所有已退出的容器：
+docker rm -v $(docker ps -aq -f status=exited)
+
+删除所有状态为dead的容器
+docker rm -v $(docker ps -aq -f status=dead)
+
+1、删除所有悬空镜像，不删除未使用镜像：
+docker rmi $(docker images -f "dangling=true" -q)
+2、删除所有未使用镜像和悬空镜像
+docker rmi $(docker images -q)
+
+docker image prune：删除悬空的镜像。
+
+docker container prune：删除无用的容器。
+      --默认情况下docker container prune命令会清理掉所有处于stopped状态的容器
+      --如果不想那么残忍统统都删掉，也可以使用--filter标志来筛选出不希望被清理掉的容器。例子：清除掉所有停掉的容器，但24内创建的除外：
+      --$ docker container prune --filter "until=24h"  
+
+docker volume prune：删除无用的卷。
+docker network prune：删除无用的网络
+
+docker run --name redis -p 6379:6379 redis --requirepass redis

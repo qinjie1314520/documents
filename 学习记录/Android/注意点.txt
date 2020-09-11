@@ -1,0 +1,14 @@
+activity生命周期——每次打开onCreate-onStart-onResume（准备显示）-onPause-onStop-onDestory
+推出到主界面面activity会onPause-onStop,许久后会onDestory
+
+activity的启动模式——android:launchMode属性
+standard: 标准模式，默认，每次启动新的
+singleTop Task栈顶复用模式，启动activity如果在栈顶，就复用。并且onNewIntent调用
+singleTask，同上，Task栈内复用模式并且onNewIntent调用
+singleInstance 全局单例模式，一个activity占用一个栈
+acticity由任务栈管理，启动一个，放一个到栈，返回移除栈顶的一个activity
+可以在activity启动时设置自定义栈（taskAffinity属性，）
+
+基于监听的事件，最后设置的有效
+基于回调（重写方法）默认传播一直，直到返回true标识不传播了
+如果监听和回调一起用，表明监听优先于回调

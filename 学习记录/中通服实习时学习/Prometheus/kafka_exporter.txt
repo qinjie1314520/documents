@@ -1,0 +1,2 @@
+docker run -ti --rm -p 9308:9308 danielqsj/kafka-exporter --kafka.server=139.9.87.17:9092 
+[--kafka.server=another-server ...]

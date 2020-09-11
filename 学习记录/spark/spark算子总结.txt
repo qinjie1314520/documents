@@ -1,0 +1,34 @@
+不太对
+
+
+1，返回类型改变了
+zip，连接两个RDD，每个RDD的大小相同，形成(1, 1), (2, 2)
+map 重新计算
+join kv有用，相同key的聚合在一起，最后成为(k,(v,w))。关键是key相同
+groupbykey 分组聚合
+groupby 分组
+glom 返回array
+foldbykey 分区内操作分区间操作
+combineByKey 分区内操作分区间操作
+aggregateByKey 分区内操作分区间操作
+cartesian 笛卡尔积
+cogroup 相同key，v的值一个迭代只有一方有的key不省略
+join  相同key，v的值合成（1,2），只有一方有的key省略
+
+
+
+2,返回类型没有改变
+coalesce 合并分区
+distinct 去重
+filter 过滤
+union 求并集
+su'btract 差集
+intersection 交集
+sortbykey 按照key排序
+sortby 排序
+sample 采样
+repartition 重新分区
+reducebykey 聚合
+reduce 聚合
+partitionby 分区
+mapValues 对v操作

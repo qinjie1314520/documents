@@ -1,0 +1,7 @@
+tb_role_resource设置外键  cascade类型
+关联tb_role中主键id
+关联tb_resource中主键id
+效果：tb_role和tb_resource中可以随意修改，同时这辆表更新后，tb_role_resource也会更新
+	同时，tb_role,tb_resource删除，tb_role_resource也会删除
+	tb_role_resource不可随意添加（因为关联了两各表，所以添加时必须在两个表中有相关数据时）
+	必须是上述两个表中有的，才可以添加，

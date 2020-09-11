@@ -1,0 +1,8 @@
+docker pull haproxy
+
+docker run -d --name haproxy -p 8082:80 -p 8888:8888 -p 8443:8443  -v /home/qinjie/docker-haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg haproxy
+
+docker run -p 9101:9101 quay.io/prometheus/haproxy-exporter --haproxy.scrape-uri="http://user:pass@haproxy.example.com/haproxy?stats;csv"
+
+
+docker run -p 9101:9101 quay.io/prometheus/haproxy-exporter --haproxy.scrape-uri="http://139.9.87.17:8888/haproxy?stats;csv"

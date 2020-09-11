@@ -1,0 +1,7 @@
+1，intitle:游戏   标题搜索 
+2，site:www.wenke.com   在指定站点搜索 有空格
+3，"数据库*与技术""   模糊查询
+4，人工智能 -百度文库      去关键字有空格
+5，游戏 OR 垃圾  有空格，关键字搜索，或者
+6，help inurl:github.com 用于搜索网页上包含指定的url
+7，数据库设计 filetype:TXT，搜索指定格式的文件

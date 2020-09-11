@@ -1,0 +1,153 @@
+
+
+netstat -apn | grep 8080
+
+查询8080端口的进程
+
+如果要查询这个进程的详情：
+ps -aux | grep xxx
+ps -aux | grep pid
+
+
+1，grant all privileges on 表.* to '用户名'@'%';
+2，mv one.txt two.txt  改名
+3,  cp one.txt ..  复制文件到上一层目录
+4，mv one.txt .. 移动文件或文件夹到上层目录
+5，mv * ..   移动该文件夹下面所有文件到上一层
+6，ps -aux|grep redis   查看redis进程
+7，/etc/init.d/redis-server restart  重启redis
+ 8，sz  文件名称，下载到本地
+apt-get remove packagename 卸载apt安装的
+nginx：
+1,nginx -s reload
+2,nginx -s stop
+3,nginx 
+4,nginx -t
+
+tar xzvf work.tar.gz  解压
+tar zcvf nginx.tar.gz nginx  压缩
+
+18.04
+reboot 重启服务器
+cp -r 目录  目录  复制文件夹
+
+redis集群
+redis-server asd.conf
+redis-cli -a redis -p 9001
+redis-cli -a redis --cluster create --cluster-replicas 外网ip:7004  同时需开放9001-9006端口，还有19001-19006端口 ...........................
+
+redis直接通过apt安装时
+apt-get purge --auto-remove redis-server  卸载redis
+
+netstat -ap | grep 637 查看某端口运行的程序 
+netstat -anp|grep pid  查看进程号占用的端口
+netstat -ntlp  查看端口运行情况
+kill -9 PID  杀死进程
+./bin/catalina.sh run &  在tomcat主目录运行那个远程发布
+
+
+cat /etc/passwd | cut -f 1 -d:  查看有哪些用户
+groups root  查看root用户在那个组
+adduser root  --in group ssh-users  添加用户到ssh-users组
+userdel -r username  删除用户
+useradd username 增加用户
+groups 查看当前登录用户的组内成员
+groups gliethttp 查看gliethttp用户所在的组,以及组内成员
+whoami 查看当前登录用户名
+gpasswd -d sftp ssh-users 用户sftp退出ssh-users组
+
+apt-get purge openssh-server 卸载ssh
+
+修改文件只可写问题（chmod: changing permissions of 'authorized_keys': Operation not permitted）
+lsattr 查看文件属性
+chattr -i authorized_keys  去掉文件i属性
+chattr +i authorized_keys  增加文件i属性
+-rw——- (600) — 只有属主有读写权限。
+
+-rw-r–r– (644) — 只有属主有读写权限；而属组用户和其他用户只有读权限。
+
+-rwx—— (700) — 只有属主有读、写、执行权限。
+
+-rwxr-xr-x (755) — 属主有读、写、执行权限；而属组用户和其他用户只有读、执行权限。
+
+-rwx–x–x (711) — 属主有读、写、执行权限；而属组用户和其他用户只有执行权限。
+
+-rw-rw-rw- (666) — 所有用户都有文件读、写权限。这种做法不可取。
+
+-rwxrwxrwx (777) — 所有用户都有读、写、执行权限。更不可取的做法
+
+
+
+service ssh restart
+/etc/init.d/jenkins start 启动
+/etc/default/jenkins 配置文件
+/var/lib/jenkins 安装目录
+
+service xinetd restart 
+
+ctrl+c是强制中断程序的执行,而ctrl+z的是将任务中断.
+但是此任务并没有结束,他仍然在进程中他只是维持挂起的状态,
+用户可以使用fg/bg操作继续前台或后台的任务,
+
+
+ubuntu设置开机自动运行
+1，写一个sh脚本
+2，复制到/etc/init.d/  cp a.sh /etc/init.d/ 
+3，授予脚本权限 chmod 775 a.sh(需要到/etc/init.d/目录下)
+
+
+Systemctl
+
+systemctl list-unit-files|grep enabled 查看已启动的列表
+systemctl enable nginx.service 设置开机自启
+
+18.04版本设置开机自启脚本，通过创建service
+在/etc/systemd/system下创建一个文件kaifaze.service
+[Unit]
+Description=just for test 描述
+After=sshd.service  在这个服务启动后
+
+[Service]
+ExecStart=/home/kaifaze/kaifaze_config/kaifaze.sh  执行的脚本
+
+[Install]
+WantedBy=multi-user.target  不知道干啥，好像式安装需要。必须有
+
+创建kaifaze.sh脚本文件，内容如下
+#!/bin/sh
+echo 'test' > /home/1a.txt
+第一行必须有，应该是标识怎么执行的
+然后systemctl daemon-reload重新加载配置，就可以了。
+也可以systemctl start kaifaze.service直接启动测试脚本是否执行
+
+tomcat作为服务的例子如下
+[Unit]
+Description=Tomcat 9 servlet container
+After=network.target
+
+[Service]
+Type=forking
+
+User=root
+Group=root
+
+Environment="JAVA_HOME=/home/kaifaze/jdk1.8"
+Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom -Djava.awt.headless=true"
+
+Environment="CATALINA_BASE=/home/kaifaze/apache1"
+Environment="CATALINA_HOME=/home/kaifaze/apache1"
+Environment="CATALINA_PID=/home/kaifaze/apache1/temp/tomcat.pid"
+Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+
+ExecStart=/home/kaifaze/apache1/bin/startup.sh
+ExecStop=/home/kaifaze/apache1/bin/shutdown.sh
+
+[Install]
+WantedBy=multi-user.target
+
+//设置service开机自启，关闭，查看自启
+systemd-analyze blame
+systemctl enable jenkins
+systemctl disable jenkins
+//后台运行
+nohup 你的shell命令 &
