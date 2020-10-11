@@ -33,6 +33,7 @@ docker mysql创建运行容器
 docker run --name=名称 -it -p 外部访问端口:mysql的端口（3306） -e MYSQL_ROOT_PASSWORD=密码 -d 镜像名称
 docker run --name=docker-mysql -it -p 3307:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql/mysql-server
 
+
 docker exec -it container_id bash 进入容器
 docker restart 容器ID（或者容器名）  重启容器
 docker stop 容器ID或容器名 停止容器
