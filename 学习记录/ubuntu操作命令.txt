@@ -58,6 +58,8 @@ gpasswd -d sftp ssh-users 用户sftp退出ssh-users组
 
 apt-get purge openssh-server 卸载ssh
 
+chown -R jenkins.jenkins .docker 修改文件夹权限
+
 修改文件只可写问题（chmod: changing permissions of 'authorized_keys': Operation not permitted）
 lsattr 查看文件属性
 chattr -i authorized_keys  去掉文件i属性

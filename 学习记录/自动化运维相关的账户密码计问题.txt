@@ -1,0 +1,20 @@
+阿里云镜像仓库固定密码：     qinjie1314520
+华为云rancher：     qinjie1314520
+
+jenkins需要登录仓库，所以在ubuntu使用docker root登录后，到
+
+解决方法：
+
+    使用root账户完成登录
+    将/root/目录下的.docker目录复制到/var/lib/jenkins
+    修改文件夹权限 chown -R jenkins.jenkins .docker
+
+
+<server>
+    <id>qinjie-aliyun</id>
+    <username>风飘遗落</username>
+    <password>qinjie1314520</password>
+    <configuration>
+      <email>1768923041@qq.com</email>
+    </configuration>
+  </server>

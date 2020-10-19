@@ -1,14 +1,25 @@
+kubectl delete pod  cattle-cluster-agent-d8b65db5f-8v2v8  -n cattle-system
+kubectl delete pod fleet-agent-b8ff84697-stgqw     -n fleet-system
+
+kubectl delete pod fleet-agent-b8ff84697-stgqw     -n fleet-system
+kubectl delete pod fleet-agent-b8ff84697-stgqw     -n fleet-system
+
+journalctl -f 查看日志
+
 coredns无法运行
 编辑 coredns的configmap
 kubectl edit cm coredns -n kube-system
 删除loop
 删除两个kubectl delete pod coredns-xxx-xxxx     -n kube-system
 
+kubeadm config images pull --image-repository=registry.aliyuncs.com/google_containers
+kubelet start 开始
+docker kill $(docker ps -aq)  关闭docker运行的所有容器
+ docker rm -f $(sudo docker ps -qa) 删除全部容器
 
 kubectl get pod --all-namespaces  查看全部节点
 
 kubectl describe pod coredns-6d56c8448f-66qkj -n kube-system 查看节点详情
-
 
 
 kubectl delete -f recommended.yaml  删除
@@ -16,14 +27,23 @@ kubectl create -f recommended.yaml  创建
 
 
 wget https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml 获取配置文件
-kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
 kubectl delete pod coredns-xxx-xxxx     -n kube-system 删除pod
 https://segmentfault.com/a/1190000013681047 可用教程
 kubectl -n kube-system describe $(kubectl -n kube-system get secret -n kube-system -o name | grep namespace) | grep token  相关获取登陆token
 
 kubectl describe node shoot--k8s-train--shacw46-worker-l9qsr-z1-5869bb9948-4cz7w 查看节点明细
 
-kubeadm init --apiserver-advertise-address=192.168.171.132 --image-repository registry.aliyuncs.com/google_containers  --service-cidr=10.10.0.0/16 --pod-network-cidr=10.122.0.0/16
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+kubeadm init --kubernetes-version=1.19.3 --apiserver-advertise-address=192.168.0.155 --image-repository registry.aliyuncs.com/google_containers  --service-cidr=10.10.0.0/16 --pod-network-cidr=10.122.0.0/16
+
+kubeadm init --kubernetes-version=1.19.3 --apiserver-advertise-address=172.31.0.11 --image-repository registry.aliyuncs.com/google_containers  --service-cidr=10.10.0.0/16 --pod-network-cidr=10.122.0.0/16
+kubeadm init --kubernetes-version=1.19.3 --apiserver-advertise-address=180.102.129.88 --image-repository registry.aliyuncs.com/google_containers  --service-cidr=10.10.0.0/16 --pod-network-cidr=10.122.0.0/16
+
+172.31.0.11
+kubeadm init --kubernetes-version=1.19.2 --image-repository registry.aliyuncs.com/google_containers  --service-cidr=10.10.0.0/16 --pod-network-cidr=10.122.0.0/16
+
+
 
 kubeadm reset
 [reset] Unmounting mounted directories in "/var/lib/kubelet"
@@ -31,6 +51,8 @@ kubeadm reset
 [reset] Deleting files: [/etc/kubernetes/admin.conf /etc/kubernetes/kubelet.conf /etc/kubernetes/bootstrap-kubelet.conf /etc/kubernetes/controller-manager.conf /etc/kubernetes/scheduler.conf]
 [reset] Deleting contents of stateful directories: [/var/lib/etcd /var/lib/kubelet /var/lib/dockershim /var/run/kubernetes /var/lib/cni]
 
+rm -rf /etc/cni/net.d
+ipvsadm --clear
 rm -rf /var/lib/kubelet
 rm -rf /etc/kubernetes/manifests 
 rm -rf /etc/kubernetes/pki
@@ -43,9 +65,43 @@ rm -rf /var/lib/etcd /var/lib/kubelet
 rm -rf /var/lib/dockershim
 rm -rf /var/run/kubernetes 
 rm -rf /var/lib/cni
+rm -rf $HOME/.kube/config
 
 
-Then you can join any number of worker nodes by running the following on each as root:
+docker rmi registry.aliyuncs.com/google_containers/kube-apiserver:v1.19.2
+docker rmi registry.aliyuncs.com/google_containers/kube-controller-manager:v1.19.2
+docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1.19.2
+docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.19.2
 
-kubeadm join 192.168.171.132:6443 --token n4rhib.7rcpz9i0qih347w4 \
-    --discovery-token-ca-cert-hash sha256:518fc5a6363d617aa8503f46c3bdcc29808d176711960708ec05fb055502d843
+
+为了更好地理解.dockerconfigjson 字段，我们将它格式化一下：
+
+kubectl get secret myregcred --output="jsonpath={.data.\.dockerconfigjson}" | base64 --decode 
+kubectl get secret myregcred --output=yaml
+创建一个Secret，并将其命名为myregcred
+kubectl create secret docker-registry myregcred \
+     --docker-server=<your-registry-server> \
+     --docker-username=<your-name> \
+     --docker-password=<your-password> \
+     --docker-email=<your-email> 
+kubectl create secret docker-registry myregcred \
+     --docker-server=registry.cn-chengdu.aliyuncs.com \
+     --docker-username=风飘遗落 \
+     --docker-password=qinjie1314520 \
+     --docker-email=1768923041@qq.com
+在yaml中指定使用的密匙
+apiVersion: v1
+ kind: Pod
+ metadata:
+   name: private-reg
+ spec:
+   containers:
+   - name: private-reg-container
+     image: <your-private-image>
+   imagePullSecrets:
+   - name: myregcred
+
+
+默认情况下，通过 kubeadm create token 创建的 token ，过期时间是24小时，这就是为什么过了一天无法再次使用之前记录的 kube join 原生脚本的原因，也可以运行 kubeadm token create --ttl 0生成一个永不过期的 token
+kubeadm join 180.102.129.88:6443  --image-repository registry.aliyuncs.com/google_containers --token b814zo.vvo686d9blu0t0ix \
+    --discovery-token-ca-cert-hash sha256:d5129cca0e87aaf6d9e2b509cca83f380da00bed18942a0711afa317ab6b69a7

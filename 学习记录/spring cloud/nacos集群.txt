@@ -1,0 +1,3 @@
+启动  -m standalone
+
+分别以集群的方式启动，然后前面nginx转发下就ok
