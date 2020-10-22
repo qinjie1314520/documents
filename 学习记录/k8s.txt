@@ -1,8 +1,5 @@
 kubectl delete pod  cattle-cluster-agent-d8b65db5f-8v2v8  -n cattle-system
-kubectl delete pod fleet-agent-b8ff84697-stgqw     -n fleet-system
 
-kubectl delete pod fleet-agent-b8ff84697-stgqw     -n fleet-system
-kubectl delete pod fleet-agent-b8ff84697-stgqw     -n fleet-system
 
 journalctl -f 查看日志
 

@@ -1,6 +1,8 @@
 阿里云镜像仓库固定密码：     qinjie1314520
 华为云rancher：     qinjie1314520
-
+华为云gitlab管理员账户
+root
+qinjie1314520
 jenkins需要登录仓库，所以在ubuntu使用docker root登录后，到
 
 解决方法：

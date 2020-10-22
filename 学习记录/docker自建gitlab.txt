@@ -1,0 +1,29 @@
+docker pull beginor/gitlab-ce:11.0.1-ce.0
+
+.创建GitLab 的配置 (etc) 、 日志 (log) 、数据 (data) 放到容器之外， 便于日后升级
+
+mkdir -p /home/qinjie/gitlab/etc
+mkdir -p /home/qinjie/gitlab/log
+mkdir -p /home/qinjie/gitlab/data
+
+运行GitLab容器
+
+进入/home/qinjie/gitlab/etc目录，运行一下命令
+
+docker run \
+    --detach \
+    --publish 8443:443 \
+    --publish 8082:80 \
+    --name gitlab \
+    --restart unless-stopped \
+    -v /home/qinjie/gitlab/etc:/etc/gitlab \
+    -v /home/qinjie/gitlab/log:/var/log/gitlab \
+    -v /home/qinjie/gitlab/data:/var/opt/gitlab \
+    beginor/gitlab-ce:11.0.1-ce.0
+
+web页面就是 ip+端口即可
+
+gitlab-ctl restart
+
+解决gitlab内存占用过多的问题
+https://blog.csdn.net/weixin_34380296/article/details/91478535?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase
