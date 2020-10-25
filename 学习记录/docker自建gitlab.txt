@@ -12,8 +12,8 @@ mkdir -p /home/qinjie/gitlab/data
 
 docker run \
     --detach \
-    --publish 8443:443 \
-    --publish 8082:80 \
+    --publish 10010:443 \
+    --publish 10009:80 \
     --name gitlab \
     --restart unless-stopped \
     -v /home/qinjie/gitlab/etc:/etc/gitlab \

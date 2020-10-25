@@ -32,11 +32,13 @@ kubectl -n kube-system describe $(kubectl -n kube-system get secret -n kube-syst
 kubectl describe node shoot--k8s-train--shacw46-worker-l9qsr-z1-5869bb9948-4cz7w 查看节点明细
 
 kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
-kubeadm init --kubernetes-version=1.19.3 --apiserver-advertise-address=192.168.0.155 --image-repository registry.aliyuncs.com/google_containers  --service-cidr=10.10.0.0/16 --pod-network-cidr=10.122.0.0/16
+
+
+kubeadm init --kubernetes-version=1.19.3 --apiserver-advertise-address=192.168.0.155 --image-repository registry.aliyuncs.com/google_containers  --service-cidr=10.10.0.0/16 --pod-network-cidr=192.168.0.0/16 --apiserver-cert-extra-sans=139.9.87.17
+
 
 kubeadm init --kubernetes-version=1.19.3 --apiserver-advertise-address=172.31.0.11 --image-repository registry.aliyuncs.com/google_containers  --service-cidr=10.10.0.0/16 --pod-network-cidr=10.122.0.0/16
-kubeadm init --kubernetes-version=1.19.3 --apiserver-advertise-address=180.102.129.88 --image-repository registry.aliyuncs.com/google_containers  --service-cidr=10.10.0.0/16 --pod-network-cidr=10.122.0.0/16
-
+kubeadm init --kubernetes-version=1.19.3 --apiserver-advertise-address=180.102.129.88 --image-repository registry.aliyuncs.com/google_containers  --service-cidr=10.10.0.0/16 --pod-network-cidr=10.122.0.0/16 
 172.31.0.11
 kubeadm init --kubernetes-version=1.19.2 --image-repository registry.aliyuncs.com/google_containers  --service-cidr=10.10.0.0/16 --pod-network-cidr=10.122.0.0/16
 
@@ -99,6 +101,12 @@ apiVersion: v1
    - name: myregcred
 
 
+openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | \
+   openssl dgst -sha256 -hex | sed 's/^.* //'
+
 默认情况下，通过 kubeadm create token 创建的 token ，过期时间是24小时，这就是为什么过了一天无法再次使用之前记录的 kube join 原生脚本的原因，也可以运行 kubeadm token create --ttl 0生成一个永不过期的 token
-kubeadm join 180.102.129.88:6443  --image-repository registry.aliyuncs.com/google_containers --token b814zo.vvo686d9blu0t0ix \
-    --discovery-token-ca-cert-hash sha256:d5129cca0e87aaf6d9e2b509cca83f380da00bed18942a0711afa317ab6b69a7
+kubeadm join 139.9.87.17:6443 --token l77gvf.1k1m86e0penfczqc \
+    --discovery-token-ca-cert-hash sha256:3e8191dc778a439aae17caba21cdd1b13dff84b92bb1d473a0bfc1d8bdb84c1e 
+iptables -t nat -A OUTPUT -d 192.168.0.155 -j DNAT --to-destination 139.9.87.17
+
+
