@@ -1,0 +1,20 @@
+数据库安装
+docker run -p 10000:3306 --name mysql -e MYSQL_ROOT_PASSWORD=root -d mysql
+docker exec -it mysql bash
+mysql -uroot -p
+
+root
+root
+
+启动nacos
+docker  run \
+--name nacos \
+-p 10001:8848 \
+--privileged=true \
+-e MODE=standalone \
+nacos/nacos-server
+
+
+-e PREFER_HOST_MODE=180.102.132.35 \
+-v /home/qinjie/nacos-docker-compose/logs:/home/nacos/logs \
+-v /home/qinjie/nacos-docker-compose/init.d/custom.properties \

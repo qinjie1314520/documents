@@ -3,6 +3,10 @@
 华为云gitlab管理员账户
 root
 qinjie1314520
+普通用户
+roger
+roger
+
 jenkins需要登录仓库，所以在ubuntu使用docker root登录后，到
 
 解决方法：
@@ -11,6 +15,19 @@ jenkins需要登录仓库，所以在ubuntu使用docker root登录后，到
     将/root/目录下的.docker目录复制到/var/lib/jenkins
     修改文件夹权限 chown -R jenkins.jenkins .docker
 
+rancher api信息
+
+curl --insecure https://139.9.87.17:8443/v3/project/c-lgqxp:p-4qzjn/workloads/deployment:my:t?action=redeploy -X POST  --header "Authorization: Bearer token-mc6ds:ntrh5zszz6tldvmr5htbctfr47hb5gkwz8czftd6tpnx7qrlhn7xmv"
+API访问地址:
+https://139.9.87.17:8443/v3
+Access Key(用户名):
+token-mc6ds
+Secret Key(密码):
+ntrh5zszz6tldvmr5htbctfr47hb5gkwz8czftd6tpnx7qrlhn7xmv
+
+Access Key和Secret Key可以作为HTTP基本身份验证的用户名和密码发送，以授权请求。您也可以将它们组合为Bearer Token:
+Bearer Token:
+token-mc6ds:ntrh5zszz6tldvmr5htbctfr47hb5gkwz8czftd6tpnx7qrlhn7xmv 
 
 <server>
     <id>qinjie-aliyun</id>
