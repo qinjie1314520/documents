@@ -1,0 +1,11 @@
+docker  run \
+--name nacos -d \
+-p 10001:8848 \
+--privileged=true \
+-e JVM_XMS=256m \
+-e JVM_XMX=256m \
+-e MODE=standalone \
+-e PREFER_HOST_MODE=180.102.132.35 \
+-v /home/qinjie/nacos/logs:/home/nacos/logs \
+-v /home/qinjie/nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties \
+nacos/nacos-server
