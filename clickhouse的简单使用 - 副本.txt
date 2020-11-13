@@ -1,0 +1,2 @@
+创建一张表
+CREATE TABLE data_center_device_activity_device_info_sp_test (id UInt16, is_arrive_flag String,partition_key String,device_id String,create_date date ) ENGINE = MergeTree(create_date, (id), 8192);
