@@ -1,15 +1,27 @@
 version: "3"
 # 管理的服务
 services:
-  redis:
+  article:
     # 指定镜像
-    image: redis
+    image: registry.cn-chengdu.aliyuncs.com/qinjie/graduation_project_roger_article:latest
+    container_name: article
     ports:
       # 端口映射
-      - 6379:6379
-    volumes:
-      # 目录映射
-      - "/home/testtmp/data:/data"
-    command:
-      # 执行的命令
-      redis-server
+      - 30008:30008
+    restart: always
+  gateway:
+    # 指定镜像
+    image: registry.cn-chengdu.aliyuncs.com/qinjie/graduation_project_roger_gateway:latest
+    container_name: gateway
+    ports:
+      # 端口映射
+      - 30004:30004
+    restart: always
+  authority:
+    # 指定镜像
+    image: registry.cn-chengdu.aliyuncs.com/qinjie/graduation_project_roger_authority:latest
+    container_name: authority
+    ports:
+      # 端口映射
+      - 30005:30005
+    restart: always

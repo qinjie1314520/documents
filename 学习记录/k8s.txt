@@ -25,6 +25,10 @@ kubectl create -f recommended.yaml  创建
 
 wget https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml 获取配置文件
 
+如果重启 执行下面两句，删除部署功能
+ kubectl get deployments --all-namespaces
+kubectl delete -n article deployment authority
+
 kubectl delete pod coredns-xxx-xxxx     -n kube-system 删除pod
 https://segmentfault.com/a/1190000013681047 可用教程
 kubectl -n kube-system describe $(kubectl -n kube-system get secret -n kube-system -o name | grep namespace) | grep token  相关获取登陆token
