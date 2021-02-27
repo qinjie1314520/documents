@@ -1,0 +1,8 @@
+react项目创建
+组件：
+https://www.jianshu.com/p/de8c5af6e352 css模块化
+https://www.cnblogs.com/luziluck/p/9377493.html 引入font-awesome
+
+https://www.jianshu.com/p/19d213edfe45 引入路由
+
+npm install node-sass 安装scss识别
