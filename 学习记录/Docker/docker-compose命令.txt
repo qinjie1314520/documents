@@ -1,0 +1,8 @@
+#启动所有服务
+docker-compose up
+
+#在后台所有启动服务
+docker-compose up -d
+
+#-f 指定使用的Compose模板文件，默认为docker-compose.yml，可以多次指定。
+docker-compose -f docker-compose.yml up -d

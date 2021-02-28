@@ -1,0 +1,15 @@
+version: "3"
+# 管理的服务
+services:
+  redis:
+    # 指定镜像
+    image: redis
+    ports:
+      # 端口映射
+      - 6379:6379
+    volumes:
+      # 目录映射
+      - "/home/testtmp/data:/data"
+    command:
+      # 执行的命令
+      redis-server

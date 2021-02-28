@@ -1,0 +1,55 @@
+创建一张表
+CREATE TABLE data_center_device_activity_device_info_sp_test (id UInt16, is_arrive_flag String,partition_key String,device_id String,create_date date ) ENGINE = MergeTree(create_date, (id), 8192);
+
+物化视图
+POPULATE 关键字标识把以前的老数据包含在其中一起计算，第一次计算的时候
+创建一个简单的物化视图
+CREATE MATERIALIZED VIEW testByRoger 
+ENGINE = Log POPULATE AS
+select partition_key,sum(event_pv) as PV,count(distinct device_id,applicationid) as UV
+from fmcm_ck.data_center_activity_event_info 
+group by partition_key
+
+一般简单的物化视图会正常更新的，但是比如物化视图有groupby后就会
+查询语句可以包含distinct，group by ,order by ,limit,
+特别注意这些相关联的约束只能应用于每个新插入的数据块中；
+比如说，如果设置了group by ,这些语句只会应用于新插入的的数据当中，
+不会作用于已经插入的分区当中
+
+
+
+
+用uniqCombined函数代替count distinct函数--12秒耗时优化到1.2秒
+
+uniqCombined    去重计数  估计值 采用array, hash table and HyperLogLog 算法
+uniqExact  去重计数  精确值
+uniqHLL12  去重计数  估计值HyperLogLog 
+uniq(x)  去重，估计值 
+
+
+select sumMerge(pv),uniqExactMerge(uv) as UV from fmcm_ck.materialized_activity_event_info_roger4
+WHERE partition_key BETWEEN 20201001 AND 20201214
+
+ select sum(event_pv) as PV,count( DISTINCT primary_key) as UV
+from fmcm_ck.data_center_activity_event_info where partition_key BETWEEN 20201001 and 20201214
+
+
+ select sum(event_pv) as PV,uniqHLL12( primary_key) as UV
+from fmcm_ck.data_center_activity_event_info where partition_key BETWEEN 20201001 and 20201214
+
+
+
+
+CREATE MATERIALIZED VIEW IF NOT EXISTS fmcm_ck.materialized_activity_event_info_roger2 ON CLUSTER fmcm_clickhouse
+ENGINE = ReplicatedAggregatingMergeTree('/clickhouse/tables/{layer}-{shard}/fmcm_ck/materialized_activity_event_info_roger2','{replica}')
+PARTITION BY partition_key
+ORDER BY (partition_key,activeid)
+SETTINGS index_granularity = 8192, use_minimalistic_part_header_in_zookeeper = 1
+POPULATE  ---更新历史数据进入物化视图
+AS SELECT
+  partition_key,
+  activeid,
+  sumState(event_pv) as pv,
+  uniqExact(primary_key) as uv  --去重，估计值 
+FROM fmcm_ck.data_center_activity_event_info
+GROUP BY partition_key,activeid;
