@@ -1,0 +1,6 @@
+1，请认真都readme.txt
+
+发起 -n1次请求 并发 1  
+ab(http)  abs(https)
+ .\abs.exe -n 1 -c 1 
+-H "Authorization:eyJhbGciOiJIUzUxMiIsInppcCI6IkRFRiJ9.eNosjNsOwiAQRP9ln7sJCy2s_RmzFJrgpTWAxsT474L6NDknM_OCU00wg18WFiaDVh8CjsprFDsKTsZRIO9kXScYoNx9K0u4pq1RKqVR3c9xwxLzI-YupcJMlpRyymgeID5vf8H8FXm_xD7sefx9vT8AAAD__w.n1DuHZG4McyB5uqXOO6sKKGqJejvTIfO5ptQSJP4D4YhE4ANcJ1RRdLqIcsQGdvZtU3PQdV3lj9aC946STNfCQ" https://dc.data-dev.thecover.cn/datacenter/activity/getActivitySource

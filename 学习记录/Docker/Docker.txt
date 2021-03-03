@@ -1,4 +1,6 @@
 
+docker cp mysql:/etc/mysql/ /home/qinjie/ 复制到主机home/qinjie目录下
+docker cp my.cnf mysql:/etc/mysql/my.cnf
 docker images 列出已有镜像
 docker pull tomcat 安装tomcat，最新版
 systemctl start docker 启动        
