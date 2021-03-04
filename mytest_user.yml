@@ -6,7 +6,9 @@ esMapping:
   _id: _id
 #  upsert: true
 #  pk: id
-  sql: "select id as _id,id, content from graduation_daily_sentence"
+  sql: "select a.id as _id,a.id,group_concat(c.name SEPARATOR ' ') as type,b.article_id from graduation_article a 
+					left join graduation_article_type_relationship b on b.article_id = a.id 
+					left join graduation_article_type c on c.id = b.article_type_id"
 #  objFields:
 #    _labels: array:;
 #  etlCondition: "where a.c_time>={}"

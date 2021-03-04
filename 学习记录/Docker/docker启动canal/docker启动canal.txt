@@ -13,3 +13,6 @@ bash run.sh -e canal.auto.scan=false -e canal.destinations=test -e canal.instanc
 mysql初始化sql版本1.15
 
 docker正常启动后，在admin中添加配置就可以了。还有可能canal中mysql报错插件错误，改下就行https://www.jianshu.com/p/3d1e877b0dce
+
+启动canaladapter，配置文件在同文件夹中的两个。把需要的zk，canalserver启动。就可以。
+需要先创建索引，并且添加一条记录进去，不然同步的时候报错，

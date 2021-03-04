@@ -1,0 +1,13 @@
+dataSourceKey: defaultDS
+destination: test
+groupId: g1
+esMapping:
+  _index: graduation_project_article
+  _id: _id
+#  upsert: true
+#  pk: id
+  sql: "select id as _id,id, content from graduation_daily_sentence"
+#  objFields:
+#    _labels: array:;
+#  etlCondition: "where a.c_time>={}"
+  commitBatch: 3000
