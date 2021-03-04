@@ -1,7 +1,7 @@
 
 docker run -d --name elasticsearch7.6.0 -p 9300:9300 -p 9200:9200 -e "discovery.type=single-node" elasticsearch:7.6.0
 
-docker run -d --name es -p 9300:9300 -p 9200:9200 -e "discovery.type=single-node" elasticsearch:latest
+docker run -d --name es -p 9300:9300 -p 9200:9200 -e "discovery.type=single-node"docker.elastic.co/elasticsearch/elasticsearch:7.10.1
 
 docker安装es
 参考网址：https://www.cnblogs.com/qa-freeroad/p/13401731.html
