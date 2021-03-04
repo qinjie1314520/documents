@@ -9,7 +9,7 @@ canal官网地址 https://github.com/alibaba/canal/wiki/Docker-QuickStart
 bash run.sh -e canal.auto.scan=false -e canal.destinations=test -e canal.instance.master.address=180.102.132.35:10000   -e canal.instance.dbUsername=canal -e canal.instance.dbPassword=canal -e canal.instance.connectionCharset=UTF-8 -e canal.instance.tsdb.enable=true -e canal.instance.gtidon=false
 
 
-canaladmin启动配套的canal
-bash run.sh  -e canal.admin.manager=139.9.87.17:8089 -e canal.admin.port=11110 -e canal.admin.user=admin -e canal.admin.passwd=123456
 
 mysql初始化sql版本1.15
+
+docker正常启动后，在admin中添加配置就可以了。还有可能canal中mysql报错插件错误，改下就行https://www.jianshu.com/p/3d1e877b0dce
