@@ -1,0 +1,23 @@
+mysql创建ofVcard的触发器
+DELIMITER $
+DROP TRIGGER IF EXISTS t;
+CREATE TRIGGER t AFTER INSERT ON ofUser FOR EACH ROW
+BEGIN
+
+
+INSERT INTO ofVCard values(new.name,concat('<vCard xmlns="vcard-temp"><FN>',new.name,'</FN><NICKNAME>',new.name,'</NICKNAME>
+                            <URL/>
+                            <ROLE/>
+                            <EMAIL><INTERNET/><PREF/><USERID/></EMAIL>
+                            <PHOTO>
+                                <TYPE>image/svg+xml</TYPE>
+                                <BINVAL>PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCI+CiA8cmVjdCB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgZmlsbD0iIzU1NSIvPgogPGNpcmNsZSBjeD0iNjQiIGN5PSI0MSIgcj0iMjQiIGZpbGw9IiNmZmYiLz4KIDxwYXRoIGQ9Im0yOC41IDExMiB2LTEyIGMwLTEyIDEwLTI0IDI0LTI0IGgyMyBjMTQgMCAyNCAxMiAyNCAyNCB2MTIiIGZpbGw9IiNmZmYiLz4KPC9zdmc+Cg==</BINVAL>
+                            </PHOTO>
+                        </vCard>'));
+END $
+DELIMITER ;
+
+
+delete from ofVCard where username = '1';
+delete from ofUser where username = '1';
+INSERT INTO `graduation_project_openfire`.`ofUser`(`username`, `storedKey`, `serverKey`, `salt`, `iterations`, `plainPassword`, `encryptedPassword`, `name`, `email`, `creationDate`, `modificationDate`) VALUES ('1', '1', '1', '1', 1, '1', '1', '1', '1', '1', '1');

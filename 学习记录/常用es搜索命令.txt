@@ -1,0 +1,44 @@
+GET media_index_picture/_doc/p_4c8c5411d9a37d2a95c1633867fe0e42
+
+POST graduation_project_article/_update/2
+{
+	"doc":{
+		"username":"AI科技大本营"
+	}
+}
+
+
+PUT graduation_project_article
+{
+    "settings": {
+        "index": {
+        "number_of_shards": "1", 
+        "number_of_replicas": "0" 
+        }
+    },
+    "mappings": {
+                "properties": {
+                    "id": {
+                        "type": "long"
+                    },
+                    "title": {
+                        "type": "text",
+                        "analyzer": "ik_max_word"
+                    },
+                    "createTime": {
+                        "type": "long"
+                    },
+                    "imageUrl": {
+                        "type": "keyword"
+                    },
+                    "description": {
+                        "type": "text",
+                        "analyzer": "ik_max_word"
+                    },
+                    "username": {
+                        "type": "text",
+                        "analyzer": "ik_max_word"
+                    }
+            }
+        }
+}

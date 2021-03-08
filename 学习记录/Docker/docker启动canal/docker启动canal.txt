@@ -2,6 +2,7 @@
 bash  run_admin.sh -e server.port=8089 -e spring.datasource.address=180.102.132.35:10000 -e spring.datasource.database=graduation_canal_admin -e spring.datasource.username=root  -e spring.datasource.password=root
 bash  run_admin.sh -e server.port=8089 
 
+先关闭es，启动admin，启动server，启动es
 官网地址：https://github.com/alibaba/canal/wiki/Canal-Admin-Docker
 可以访问 http://127.0.0.1:8089/ ，默认账号密码: admin/123456 
 
@@ -15,4 +16,8 @@ mysql初始化sql版本1.15
 docker正常启动后，在admin中添加配置就可以了。还有可能canal中mysql报错插件错误，改下就行https://www.jianshu.com/p/3d1e877b0dce
 
 启动canaladapter，配置文件在同文件夹中的两个。把需要的zk，canalserver启动。就可以。
-需要先创建索引，并且添加一条记录进去，不然同步的时候报错，
+需要先创建索引，（或者创建好字段映射）并且添加一条记录进去，不然同步的时候报错，
+
+这个接口就是全量同步
+http://localhost:8081/etl/es7/mytest_user.yml。canal-adapter是个springboot项目
+有一些接口

@@ -1,0 +1,67 @@
+
+docker run -d --name elasticsearch7.6.0 -p 9300:9300 -p 9200:9200 -e "discovery.type=single-node" elasticsearch:7.6.0
+
+docker run -d --name es -p 9300:9300 -p 9200:9200 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+docker cp /tmp/elasticsearch-analysis-ik-7.3.2.zip  es:/usr/share/elasticsearch/plugins
+mv /usr/share/elasticsearch/plugins/elasticsearch-analysis-ik-7.3.2.zip /usr/share/elasticsearch/plugins/ik
+
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+
+
+docker安装es
+参考网址：https://www.cnblogs.com/qa-freeroad/p/13401731.html
+
+
+docker logs 676164fb24b3
+docker exec -it es /bin/bash
+
+network.host: 0.0.0.0
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+
+docker cp 主机路径 容器ID:容器里的路径
+
+docker run -d --name es_exporter -p 9114:9114 -e es.uri=http://139.9.87.17:9200 justwatch/elasticsearch_exporter
+
+
+docker镜像启动kibana
+ docker run --name kibana -e ELASTICSEARCH_URL=http://139.9.87.17:9200 -p 10012:5601 -d docker.elastic.co/kibana/kibana:7.10.1
+参数可能没有，还是进入容器再配下es的地址
+
+kibana创建带有字段类型+分词的请求
+PUT graduation_project_article
+{
+    "settings": {
+        "index": {
+        "number_of_shards": "1", 
+        "number_of_replicas": "0" 
+        }
+    },
+    "mappings": {
+                "properties": {
+                    "id": {
+                        "type": "long"
+                    },
+                    "title": {
+                        "type": "text",
+                        "analyzer": "ik_max_word"
+                    },
+                    "createTime": {
+                        "type": "long"
+                    },
+                    "imageUrl": {
+                        "type": "keyword"
+                    },
+                    "description": {
+                        "type": "text",
+                        "analyzer": "ik_max_word"
+                    },
+                    "username": {
+                        "type": "text",
+                        "analyzer": "ik_max_word"
+                    }
+            }
+        }
+}
+
